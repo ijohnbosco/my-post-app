@@ -1,0 +1,35 @@
+<div class="container mt-4">
+    <h2 *ngIf="isEditMode">Edit Post</h2>
+    <h2 *ngIf="!isEditMode">New Post</h2>
+    <form (ngSubmit)="savePost()" #postForm="ngForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" class="form-control" [(ngModel)]="post.title" name="title" required maxlength="200">
+        <div *ngIf="postForm.controls.title?.invalid && postForm.controls.title?.touched" class="text-danger">
+          Title is required and cannot exceed 200 characters.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="body">Message</label>
+        <textarea id="body" class="form-control" [(ngModel)]="post.body" name="body" required maxlength="2000"></textarea>
+        <div *ngIf="postForm.controls.body?.invalid && postForm.controls.body?.touched" class="text-danger">
+          Message is required and cannot exceed 2000 characters.
+        </div>
+      </div>
+  
+      <div class="d-flex justify-content-between mt-3">
+        <button *ngIf="isEditMode" type="button" class="btn btn-danger ml-auto" (click)="deletePost()">Delete</button>
+        
+        <div class="ml-auto">
+            <button type="submit" class="btn btn-success right-button-gap" [disabled]="postForm.invalid || !postForm.dirty">Save</button>
+            <button type="button" class="btn btn-secondary " (click)="cancel()">Cancel</button>
+            
+        </div>
+       
+        
+      </div>
+    </form>
+    <a class="btn btn-link mt-3" (click)="navigateToHome()">Go back to Home page</a>
+  </div>
+  

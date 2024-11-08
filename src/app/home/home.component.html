@@ -1,0 +1,48 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>Message Posts</h1>
+      <div>
+        
+        <button *ngIf="!isLoggedIn()" class="btn btn-primary" (click)="navigateToLogin()">Log In</button>
+        <div *ngIf="isLoggedIn()">
+          <span>Welcome, {{ currentUser.name }}!</span>
+          <button *ngIf="isLoggedIn()" class="btn btn-success m-3" (click)="createNewPost()">New Post</button>
+          <button class="btn btn-secondary" (click)="logout()">Log Out</button>
+        </div>
+      </div>
+    </div>
+    
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Post</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of displayedPosts">
+          <td>
+            <a [href]="post.user.companyWebsite">{{ post.user.name }}</a><br>
+            <small>{{ post.user.companyName }}</small>
+          </td>
+          <td>
+            <a *ngIf="isLoggedIn() && post.userId === currentUser.id" 
+     [routerLink]="['/post-edit', post.id]" 
+     (click)="editPost(post)">
+    {{ post.title }}
+  </a>
+            <span *ngIf="!isLoggedIn() || post.userId !== currentUser.id">{{ post.title }}</span>
+            <p>{{ post.body }}</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="d-flex justify-content-between">
+      <button class="btn btn-outline-secondary" (click)="previousPage()" [disabled]="!hasPreviousPage()"><i class="fa fa-arrow-left bold-icon"></i></button>
+      <button class="btn btn-outline-secondary" (click)="nextPage()" [disabled]="!hasNextPage()"><i class="fa fa-arrow-right bold-icon"></i></button>
+    </div>
+  
+    
+  </div>
+  
